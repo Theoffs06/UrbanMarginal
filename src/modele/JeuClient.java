@@ -1,3 +1,4 @@
+package modele;
 /** Gestion du jeu côté client **/
 public class JeuClient extends Jeu {
 	/** Controleur **/

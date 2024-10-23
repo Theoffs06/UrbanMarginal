@@ -1,3 +1,4 @@
+package modele;
 import java.util.ArrayList;
 
 /** Gestion du jeu côté serveur **/

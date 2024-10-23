@@ -1,3 +1,4 @@
+package modele;
 /** Informations et méthodes communes aux jeux client et serveur **/
 public abstract class Jeu {
 	/** Réception d'une connexion (pour communiquer avec un ordinateur distant) **/

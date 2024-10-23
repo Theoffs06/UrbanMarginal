@@ -1,3 +1,5 @@
+package modele;
+
 /** Gestion des joueurs **/
 public class Joueur extends Objet {
 	/** vie de départ pour tous les joueurs **/
