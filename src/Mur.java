@@ -1,13 +1,6 @@
-/**
- * Gestion des murs
- *
- */
+/** Gestion des murs **/
 public class Mur extends Objet {
-
-	/**
-	 * Constructeur
-	 */
+	/** Constructeur **/
 	public Mur() {
 	}
-	
 }

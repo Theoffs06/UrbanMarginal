@@ -1,28 +1,22 @@
-/**
- * Gestion du jeu côté client
- *
- */
+/** Gestion du jeu côté client **/
 public class JeuClient extends Jeu {
-	
-	/**
-	 * Controleur
-	 */
+	/** Controleur **/
 	public JeuClient() {
 	}
 	
 	@Override
 	public void connexion() {
 	}
+	
+	@Override
+	public void deconnexion() {
+	}
 
 	@Override
 	public void reception() {
 	}
 	
-	/**
-	 * Envoi d'une information vers le serveur
-	 * fais appel une fois à l'envoi dans la classe Jeu
-	 */
+	/** Envoi d'une information vers le serveur fais appel une fois à l'envoi dans la classe Jeu **/
 	public void envoi() {
 	}
-
 }
