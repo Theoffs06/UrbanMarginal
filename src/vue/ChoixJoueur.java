@@ -16,13 +16,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ChoixJoueur extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtPseudo;
 	private JLabel btnNext;
 	private JLabel btnGo;
-	
+		
 	/**
 	 * Create the frame.
 	 */

@@ -2,6 +2,7 @@ package vue;
 
 import java.awt.EventQueue;
 
+import controleur.Controle;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -29,8 +30,12 @@ public class EntreeJeu extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtIp;
 	
+	private Controle controle;
+	
 	/** Create the frame. **/
-	public EntreeJeu() {
+	public EntreeJeu(Controle controle) {
+		this.controle = controle;
+		
 		setResizable(false);
 		setTitle("Urban Marginal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +54,7 @@ public class EntreeJeu extends JFrame {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StartButton();
+				controle.EventEntreeJeu("serveur");
 			}
 		});
 		btnStart.setBounds(185, 5, 90, 23);
@@ -74,7 +79,7 @@ public class EntreeJeu extends JFrame {
 		JButton btnConnect = new JButton("Connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConnectButton();
+				controle.EventEntreeJeu(txtIp.getText());
 			}
 		});
 		btnConnect.setBounds(185, 46, 90, 23);
@@ -88,20 +93,6 @@ public class EntreeJeu extends JFrame {
 		});
 		btnExit.setBounds(185, 80, 90, 23);
 		contentPane.add(btnExit);
-	}
-	
-	private void StartButton() {
-		Arene frmArene = new Arene();
-		frmArene.setVisible(true);
-		
-		this.dispose();
-	}
-	
-	private void ConnectButton() {
-		ChoixJoueur frmChoixJoueur = new ChoixJoueur();
-		frmChoixJoueur.setVisible(true);
-		
-		this.dispose();
 	}
 	
 	private void ExitButton() {
