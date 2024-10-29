@@ -4,7 +4,9 @@ import outils.connexion.*;
 import vue.*;
 
 public class Controle implements AsyncResponse {
-	private static final int PORT = 6666;
+	public static final int PORT = 6666;
+	public static final int MAXCHARACTER = 3;
+	
 	private String typeJeu;
 	
 	private EntreeJeu frmEntreeJeu;
@@ -22,9 +24,9 @@ public class Controle implements AsyncResponse {
 	}
 	
 	public void EventEntreeJeu(String info) {
-		if(info == "serveur") {
+		if(info.equals("serveur")) {
 			typeJeu = "serveur";
-			ServeurSocket serveurSocket = new ServeurSocket(this, PORT);
+			new ServeurSocket(this, PORT);
 			
 			frmArene = new Arene();
 			frmArene.setVisible(true);
@@ -33,20 +35,24 @@ public class Controle implements AsyncResponse {
 			return;
 		}
 		
-		typeJeu = "client";
-		ClientSocket clientSocket = new ClientSocket(this, info, PORT);
-		
+		typeJeu = "client"; 
+		new ClientSocket(this, info, PORT);
+	}
+	
+	public void EventChoixJoueur(String pseudo, int characterId) {
+		frmArene.setVisible(true);
+		frmChoixJoueur.dispose();
 	}
 	
 	@Override
 	public void reception(Connection connection, String ordre, Object info) {
 		switch(ordre) {
 		case "connexion":
-			if(typeJeu == "client") {
+			if(typeJeu.equals("client")) {
 				frmArene = new Arene();
 				frmArene.setVisible(false);
 				
-				frmChoixJoueur = new ChoixJoueur();
+				frmChoixJoueur = new ChoixJoueur(this);
 				frmChoixJoueur.setVisible(true);
 				
 				frmEntreeJeu.dispose();
