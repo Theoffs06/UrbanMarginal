@@ -28,7 +28,11 @@ public class Joueur extends Objet implements Global {
 	/** Constructeur **/
 	public Joueur() {}
 
-	/** Initialisation d'un joueur (pseudo et numéro, calcul de la 1ère position, affichage, création de la boule) **/
+	/**
+	 * Initialisation d'un joueur (pseudo et numéro, calcul de la 1ère position, affichage, création de la boule)
+	 * @param numPerso numéro du personnage
+	 * @param pseudo pseudo du joueur
+	 */
 	public void initPerso(String pseudo, int numPerso) {
 		this.pseudo = pseudo;
 		this.numPerso = numPerso;

@@ -12,7 +12,7 @@ public class JeuServeur extends Jeu implements Global {
 	/** Collection de murs **/
 	private ArrayList<Mur> lesMurs = new ArrayList<Mur>();
 	
-	/** * Collection de joueurs **/
+	/** Dictionnaire de joueurs indexé sur leur objet de connexion **/
 	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>();
 	
 	/** Constructeur **/

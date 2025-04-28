@@ -6,13 +6,27 @@ import modele.JeuClient;
 import outils.connexion.*;
 import vue.*;
 
+/**
+ * Contrôleur et point d'entrée de l'applicaton 
+ * @author emds
+ **/
 public class Controle implements AsyncResponse, Global {
-		private Jeu leJeu;
+	/** instance du jeu (JeuServeur ou JeuClient) **/
+	private Jeu leJeu;
 	
+	/** frame EntreeJeu **/
 	private EntreeJeu frmEntreeJeu;
+	
+	/** frame ChoixJoueur **/
 	private ChoixJoueur frmChoixJoueur;
+	
+	/** frame Arene **/
 	private Arene frmArene;
 	
+	/**
+	 * Méthode de démarrage
+	 * @param args non utilisé
+	 */
 	public static void main(String[] args) {
 		new Controle();
 	}
@@ -23,6 +37,10 @@ public class Controle implements AsyncResponse, Global {
 		this.frmEntreeJeu.setVisible(true);
 	}
 	
+	/**
+	 * Demande provenant de la vue EntreeJeu
+	 * @param info information à traiter
+	 */
 	public void EventEntreeJeu(String info) {
 		if(info.equals("serveur")) {
 			new ServeurSocket(this, PORT);
@@ -38,12 +56,22 @@ public class Controle implements AsyncResponse, Global {
 		new ClientSocket(this, info, Global.PORT);
 	}
 	
+	/**
+	 * Informations provenant de la vue ChoixJoueur
+	 * @param pseudo le pseudo du joueur
+	 * @param numPerso le numéro du personnage choisi par le joueur
+	 */
 	public void EventChoixJoueur(String pseudo, int characterId) {
 		frmArene.setVisible(true);
 		frmChoixJoueur.dispose();
 		((JeuClient) leJeu).envoi(PSEUDO+STRINGSEPARE+pseudo+STRINGSEPARE+characterId);
 	}
 	
+	/**
+	 * Envoi d'informations vers l'ordinateur distant
+	 * @param connection objet de connexion pour l'envoi vers l'ordinateur distant
+	 * @param info information à envoyer
+	 */
 	public void envoi(Connection connection, Object info) {
 		connection.envoi(info);
 	}
