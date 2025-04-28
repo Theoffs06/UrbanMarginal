@@ -109,13 +109,13 @@ public class Sound implements Serializable, Runnable {
 	      //On ouvre le son
 	      reouvrir();
 	}
-    catch(UnsupportedAudioFileException uafe){
+    catch(UnsupportedAudioFileException uafe) {
       throw new SonTypeException();
     }
-    catch(IOException ioe){
+    catch(IOException ioe) {
       throw new SonErreurLecture();
     }
-    catch(Exception e){
+    catch(Exception e) {
       throw new SonErreurDiverse(e);
     }
 
@@ -124,7 +124,7 @@ public class Sound implements Serializable, Runnable {
   }
   
   private void initialise(URL url) throws SonException {
-    try{
+    try {
       //Cr�e le flux
       this.lecteurAudio = AudioSystem.getAudioInputStream(url);
       
@@ -135,7 +135,7 @@ public class Sound implements Serializable, Runnable {
       this.format = lecteurAudio.getFormat();
 
       //On ne peut pas ouvrir directement des format ALAW/ULA, il faut les convertir en PCM
-      if((this.format.getEncoding() == AudioFormat.Encoding.ULAW) || (this.format.getEncoding() == AudioFormat.Encoding.ALAW)){
+      if((this.format.getEncoding() == AudioFormat.Encoding.ULAW) || (this.format.getEncoding() == AudioFormat.Encoding.ALAW)) {
         //convertion du format
         AudioFormat tmp = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, this.format.getSampleRate(), this.format.getSampleSizeInBits() * 2, this.format.getChannels(), this.format.getFrameSize() * 2, this.format.getFrameRate(), true);
         
@@ -170,9 +170,9 @@ public class Sound implements Serializable, Runnable {
   }
   
   /** Jouer le son une fois **/
-  public void jouer(){
+  public void jouer() {
     // Si le son n'est pas initialiser, on l'initialise
-    if(this.thread == null){
+    if(this.thread == null) {
       this.thread = new Thread(this);
       this.thread.start();
     }
@@ -184,7 +184,7 @@ public class Sound implements Serializable, Runnable {
   /** Joue le son plusieurs fois @param nbFois Nombre de fois que le son est jou� **/
   public void boucle(int nbFois) {
     //Si le son n'est pas initialiser, on l'initialise
-    if(this.thread == null){
+    if(this.thread == null) {
       this.thread = new Thread(this);
       this.thread.start();
     }
@@ -194,27 +194,27 @@ public class Sound implements Serializable, Runnable {
   }
   
   /** Joue le son un tn tr�s grand nombre de fois **/
-  public void boucle(){
+  public void boucle() {
     this.boucle(Integer.MAX_VALUE);
   }
   
   /** Action du son, ne jamais appel� cette m�thode directement, elle est public pour respecter l'impl�mentation de Runnable **/
-  public void run(){
+  public void run() {
     //Tant que le son est vivant
-    while(this.thread != null){
+    while(this.thread != null) {
       //Pause de 0.123 seconde
-      try{
+      try {
         this.thread.sleep(123);
       }
-      catch(Exception e){}
+      catch(Exception e) {}
       
       //Si on doit jouer le son au moins une fois
-      if(this.tour > 0){
+      if(this.tour > 0) {
         //On lance le son
         this.clip.start();
         
         //pause de 0.099 seconde (le son est jouer pendant ce temps)
-        try{
+        try {
           this.thread.sleep(99);
         }
         catch(Exception e) {}
@@ -225,10 +225,10 @@ public class Sound implements Serializable, Runnable {
           if(!this.pause) this.avancer();
           
           //Pause de 0.099 seconde
-          try{
+          try {
             this.thread.sleep(99);
           }
-          catch(Exception e){
+          catch(Exception e) {
             break;
           }
         }
@@ -259,25 +259,25 @@ public class Sound implements Serializable, Runnable {
   }
   
   /** Met le son en pause **/
-  public void pause(){
+  public void pause() { 
     //Si on est pas d�j� en pause, on se met en pause
-    if(!this.pause){
+    if(!this.pause) {
       this.clip.stop();
       this.pause = true;
     }
   }
   
   /** Reprend le son ou il �tait rendu (enl�ve la pause) **/
-  public void reprise(){
+  public void reprise() {
     //Si on est en pause, on enl�ve la pause
-    if(this.pause){
+    if(this.pause) {
       pause = false;
       this.clip.start();
     }
   }
   
   /** Arr�te de jouer le son et retour du son au d�but **/
-  public void stop(){
+  public void stop() {
     this.clip.stop();
     this.placeMicroseconde(0);
     
@@ -288,7 +288,7 @@ public class Sound implements Serializable, Runnable {
   /**
    * D�truit proprement le son
    */
-  public void fermer(){
+  public void fermer() {
     this.stop();
     this.clip.close();
     this.clip = null;
@@ -305,7 +305,7 @@ public class Sound implements Serializable, Runnable {
    * Indique si le son sera d�truit apr�s sa derni�re fois ou il joue
    * @return <b>true</b> si le son est d�truit quand c'est finit
    */
-  public boolean estFermerALaFin(){
+  public boolean estFermerALaFin() {
     return fermerALaFin;
   }
   
@@ -313,7 +313,7 @@ public class Sound implements Serializable, Runnable {
    * Change l'�tat de fermeture � la fin
    * @param fermer <b>true</b> pour indiqu� que l'on d�sire que le son soit d�truit apr�s la derni�re fois qu'il joue
    */
-  public void setFermerALaFin(boolean fermer){
+  public void setFermerALaFin(boolean fermer) {
     this.fermerALaFin = fermer;
   }
   
@@ -321,7 +321,7 @@ public class Sound implements Serializable, Runnable {
    * Longeur du son en microseconde
    * @return Longueur du son
    */
-  public long longueurSonMicroseconde(){
+  public long longueurSonMicroseconde() {
     return this.clip.getMicrosecondLength();
   }
   
@@ -329,7 +329,7 @@ public class Sound implements Serializable, Runnable {
    * Nombre de microsecondes �coul�es depuis le d�but du son
    * @return Dur�e en microseconde de l'�coute
    */
-  public long getRenduMicroseconde(){
+  public long getRenduMicroseconde() {
     return this.clip.getMicrosecondPosition();
   }
   
@@ -337,7 +337,7 @@ public class Sound implements Serializable, Runnable {
    * Dur�e de l'�coute
    * @return Dur�e de l'�coute
    */
-  public Duree getRendu(){
+  public Duree getRendu() {
     return new Duree(this.getRenduMicroseconde());
   }
   
@@ -345,7 +345,7 @@ public class Sound implements Serializable, Runnable {
    * Place le son � cette dur�e en milliseconde.
    * @param microseconde Place � laquelle on d�sire commenc� le son
    */
-  public void placeMicroseconde(long microseconde){
+  public void placeMicroseconde(long microseconde) {
     this.clip.setMicrosecondPosition(microseconde);
   }
   
@@ -353,12 +353,12 @@ public class Sound implements Serializable, Runnable {
    * Place le son � cette dur�e
    * @param duree Place � laquelle on d�sire commenc� le son
    */
-  public void placeDuree(Duree duree){
+  public void placeDuree(Duree duree) {
     this.placeMicroseconde(duree.getMicroseconde());
   }
   
   /** Remet le son au d�part **/
-  public void placeDepart(){
+  public void placeDepart() {
     this.clip.setMicrosecondPosition(0);
   }
   
@@ -366,7 +366,7 @@ public class Sound implements Serializable, Runnable {
    * Indique si le son est en pause
    * @return <b> true</b> si le son est en pause
    */
-  public boolean estEnPause(){
+  public boolean estEnPause() {
     return this.pause;
   }
   
@@ -374,7 +374,7 @@ public class Sound implements Serializable, Runnable {
    * Indique si le son est entrain d'�tre jouer
    * @return <b>true</b> si le son est entrain d'�tre jou�
    */
-  public boolean estEntrainDeJouer(){
+  public boolean estEntrainDeJouer() {
     return !this.pause && (this.tour > 0);
   }
   
@@ -382,7 +382,7 @@ public class Sound implements Serializable, Runnable {
    * Ajout un �couteur d'�v�nement son
    * @param ecouteur Ecouteur ajout�
    */
-  public void ajouteEcouteurSon(EcouteurSon ecouteur){
+  public void ajouteEcouteurSon(EcouteurSon ecouteur) {
     if(ecouteur != null) this.ecouteurs.addElement(ecouteur);
   }
   
@@ -398,7 +398,7 @@ public class Sound implements Serializable, Runnable {
   private void terminer() {
     Thread t = new Thread() {
       public void run() {
-        Sound.this.terminer1();
+    	  Sound.this.terminer1();
       }
     };
     
@@ -410,8 +410,8 @@ public class Sound implements Serializable, Runnable {
     int nb = this.ecouteurs.size();
     
     for(int i = 0; i < nb; i++) {
-      EcouteurSon ecouteur = (EcouteurSon)this.ecouteurs.elementAt(i);
-      ecouteur.sonTermine(this);
+    	EcouteurSon ecouteur = (EcouteurSon)this.ecouteurs.elementAt(i);
+    	ecouteur.sonTermine(this);
     }
   }
   
@@ -431,8 +431,8 @@ public class Sound implements Serializable, Runnable {
     int nb = this.ecouteurs.size();
     
     for(int i = 0; i < nb; i++) {
-      EcouteurSon ecouteur = (EcouteurSon)this.ecouteurs.elementAt(i);
-      ecouteur.sonChangePosition(this);
+    	EcouteurSon ecouteur = (EcouteurSon)this.ecouteurs.elementAt(i);
+    	ecouteur.sonChangePosition(this);
     }
   }
   

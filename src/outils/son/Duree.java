@@ -5,13 +5,11 @@ import java.io.Serializable;
 /**
  * Repr�sente une dur�e
  */
-
-public class Duree implements Serializable
-{
+public class Duree implements Serializable {
   private long microsecondes;
   private int heure, minute, seconde, microseconde;
   
-  public Duree(){}
+  public Duree() {}
   
   public Duree(long microsecondes) {
     this.microsecondes = microsecondes;
@@ -29,7 +27,7 @@ public class Duree implements Serializable
     this.heure = (int) temps;
   }
   
-  public Duree(int microseconde){
+  public Duree(int microseconde) {
     if(microseconde < 0) throw new IllegalArgumentException("Le nombre de microsecondes ne peut pas �tre n�gative");
     if(microseconde > 999999) throw new IllegalArgumentException("Le nombre de microsecondes ne peut pas �tre plus de 999999, sinon on a des secondes");
     
@@ -47,7 +45,7 @@ public class Duree implements Serializable
     this.microsecondes += 1000000L * (long)this.seconde;
   }
   
-  public Duree(int minute, int seconde, int microseconde){
+  public Duree(int minute, int seconde, int microseconde) {
     this(seconde, microseconde);
     
     if(minute < 0) throw new IllegalArgumentException("Le nombre de minutes ne peut pas �tre n�gative");
@@ -57,7 +55,7 @@ public class Duree implements Serializable
     this.microsecondes += 60L * 1000000L * (long)this.minute;
   }
   
-  public Duree(int heure, int minute, int seconde, int microseconde){
+  public Duree(int heure, int minute, int seconde, int microseconde) {
     this(minute, seconde, microseconde);
     
     if(heure < 0) throw new IllegalArgumentException("Le nombre d'heure ne peut pas �tre n�gative");
@@ -66,7 +64,7 @@ public class Duree implements Serializable
     this.microsecondes += 60L * 60L * 1000000L * (long)this.heure;
   }
   
-  public Duree(Duree duree){
+  public Duree(Duree duree) {
     this.microsecondes = duree.microsecondes;
     this.microseconde = duree.microseconde;
     
@@ -75,27 +73,27 @@ public class Duree implements Serializable
     this.heure = duree.heure;
   }
   
-  public long enMicrosecondes(){
+  public long enMicrosecondes() {
     return this.microsecondes;
   }
   
-  public long enMillisecondes(){
+  public long enMillisecondes() {
     return this.microsecondes / 1000L;
   }
   
-  public int getMicroseconde(){
+  public int getMicroseconde() {
     return this.microseconde;
   }
   
-  public int getMilliseconde(){
+  public int getMilliseconde() {
     return this.microseconde / 1000;
   }
   
-  public int getSeconde(){
+  public int getSeconde() {
     return this.seconde;
   }
   
-  public int getMinute(){
+  public int getMinute() {
     return this.minute;
   }
   

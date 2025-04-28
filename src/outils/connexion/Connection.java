@@ -58,22 +58,20 @@ public class Connection extends Thread {
 	 **/
 	public synchronized void envoi(Object unObjet) {
 		// l'envoi ne peut se faire que si un objet delegate existe (pour récupérer la réponse)
-		if(delegate != null) {
-			try {
-				this.out.reset();
+		if (delegate == null) return;
+		
+		try {
+			this.out.reset();
 				
-				out.writeObject(unObjet);
-				out.flush();
-			} 
-			catch (IOException e) {
-				System.out.println("erreur d'envoi sur le canal out : "+e);
-			}
+			out.writeObject(unObjet);
+			out.flush();
+		} 
+		catch (IOException e) {
+			System.out.println("erreur d'envoi sur le canal out : "+e);
 		}
 	}
 	
-	/**
-	 * Méthode thread qui permet d'attendre des messages provenant de l'ordi distant
-	 **/
+	/** Méthode thread qui permet d'attendre des messages provenant de l'ordi distant **/
 	public void run() {
 		// permet de savoir s'il faut continuer à écouter
 		boolean inOk = true;
@@ -100,7 +98,7 @@ public class Connection extends Thread {
 				delegate.reception(this, "deconnexion", null);
 				
 				// demande d'arrêter de boucler sur l'attente d'une réponse
-				inOk = false ;
+				inOk = false;
 				
 				// l'ordinateur distant n'est plus accessible
 				System.out.println("l'ordinateur distant est déconnecté");

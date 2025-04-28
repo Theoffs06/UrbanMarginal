@@ -1,6 +1,11 @@
 package modele;
+
+import controleur.Controle;
+
 /** Informations et méthodes communes aux jeux client et serveur **/
 public abstract class Jeu {
+	protected Controle controle;
+	
 	/** Réception d'une connexion (pour communiquer avec un ordinateur distant) **/
 	public abstract void connexion();
 	
@@ -11,6 +16,5 @@ public abstract class Jeu {
 	public abstract void deconnexion();
 	
 	/** Envoi d'une information vers un ordinateur distant **/
-	public void envoi() {
-	}
+	public void envoi() {}
 }

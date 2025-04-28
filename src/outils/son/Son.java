@@ -40,5 +40,4 @@ public class Son implements Serializable {
     public void playContinue () {
         sound.boucle() ;
     }
-
 }

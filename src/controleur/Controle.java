@@ -1,5 +1,8 @@
 package controleur;
 
+import modele.Jeu;
+import modele.JeuServeur;
+import modele.JeuClient;
 import outils.connexion.*;
 import vue.*;
 
@@ -7,7 +10,7 @@ public class Controle implements AsyncResponse {
 	public static final int PORT = 6666;
 	public static final int MAXCHARACTER = 3;
 	
-	private String typeJeu;
+	private Jeu leJeu;
 	
 	private EntreeJeu frmEntreeJeu;
 	private ChoixJoueur frmChoixJoueur;
@@ -25,8 +28,8 @@ public class Controle implements AsyncResponse {
 	
 	public void EventEntreeJeu(String info) {
 		if(info.equals("serveur")) {
-			typeJeu = "serveur";
 			new ServeurSocket(this, PORT);
+			leJeu = new JeuServeur(this);
 			
 			frmArene = new Arene();
 			frmArene.setVisible(true);
@@ -35,7 +38,6 @@ public class Controle implements AsyncResponse {
 			return;
 		}
 		
-		typeJeu = "client"; 
 		new ClientSocket(this, info, PORT);
 	}
 	
@@ -48,15 +50,16 @@ public class Controle implements AsyncResponse {
 	public void reception(Connection connection, String ordre, Object info) {
 		switch(ordre) {
 		case "connexion":
-			if(typeJeu.equals("client")) {
-				frmArene = new Arene();
-				frmArene.setVisible(false);
+			if(leJeu instanceof JeuServeur) return;
+			leJeu = new JeuClient(this);
+			
+			frmArene = new Arene();
+			frmArene.setVisible(false);
 				
-				frmChoixJoueur = new ChoixJoueur(this);
-				frmChoixJoueur.setVisible(true);
+			frmChoixJoueur = new ChoixJoueur(this);
+			frmChoixJoueur.setVisible(true);
 				
-				frmEntreeJeu.dispose();
-			}
+			frmEntreeJeu.dispose();
 			break;
 		case "réception":
 			break;

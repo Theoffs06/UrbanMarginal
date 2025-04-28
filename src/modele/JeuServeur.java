@@ -1,5 +1,7 @@
 package modele;
+
 import java.util.ArrayList;
+import controleur.Controle;
 
 /** Gestion du jeu côté serveur **/
 public class JeuServeur extends Jeu {
@@ -10,26 +12,22 @@ public class JeuServeur extends Jeu {
 	private ArrayList<Joueur> lesJoueurs = new ArrayList<Joueur>();
 	
 	/** Constructeur **/
-	public JeuServeur() {
+	public JeuServeur(Controle controle) {
+		this.controle = controle;
 	}
 	
 	@Override
-	public void connexion() {
-	}
+	public void connexion() {}
 
 	@Override
-	public void reception() {
-	}
+	public void reception() {}
 	
 	@Override
-	public void deconnexion() {
-	}
+	public void deconnexion() {}
 
 	/** Envoi d'une information vers tous les clients fais appel plusieurs fois à l'envoi de la classe Jeu **/
-	public void envoi() {
-	}
+	public void envoi() {}
 
 	/** Génération des murs **/
-	public void constructionMurs() {
-	}
+	public void constructionMurs() {}
 }

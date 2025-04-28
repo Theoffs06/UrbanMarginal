@@ -6,10 +6,8 @@ public class Boule extends Objet {
 	private JeuServeur jeuServeur;
 	
 	/** Constructeur **/
-	public Boule() {
-	}
+	public Boule() {}
 	
 	/** Tire d'une boule **/
-	public void tireBoule() {
-	}
+	public void tireBoule() {}
 }

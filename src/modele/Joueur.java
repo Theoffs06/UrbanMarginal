@@ -33,28 +33,22 @@ public class Joueur extends Objet {
 	private int orientation;
 	
 	/** Constructeur **/
-	public Joueur() {
-	}
+	public Joueur() {}
 
 	/** Initialisation d'un joueur (pseudo et numéro, calcul de la 1ère position, affichage, création de la boule) **/
-	public void initPerso() {
-	}
+	public void initPerso() {}
 
 	/** Calcul de la première position aléatoire du joueur (sans chevaucher un autre joueur ou un mur) **/
-	private void premierePosition() {
-	}
+	private void premierePosition() {}
 	
 	/** Affiche le personnage et son message **/
-	public void affiche() {
-	}
+	public void affiche() {}
 
 	/** Gère une action reçue et qu'il faut afficher (déplacement, tire de boule...) **/
-	public void action() {
-	}
+	public void action() {}
 
 	/** Gère le déplacement du personnage **/
-	private void deplace() { 
-	}
+	private void deplace() {}
 
 	/**
 	 * Contrôle si le joueur touche un des autres joueurs
@@ -65,12 +59,10 @@ public class Joueur extends Objet {
 	}
 
 	/** Gain de points de vie après avoir touché un joueur **/
-	public void gainVie() {
-	}
+	public void gainVie() {}
 	
 	/** Perte de points de vie après avoir été touché **/
-	public void perteVie() {
-	}
+	public void perteVie() {}
 	
 	/**
 	 * Contrôle si le joueur touche un des murs
@@ -89,6 +81,5 @@ public class Joueur extends Objet {
 	}
 	
 	/** Le joueur se déconnecte et disparait **/
-	public void departJoueur() {
-	}
+	public void departJoueur() {}
 }
