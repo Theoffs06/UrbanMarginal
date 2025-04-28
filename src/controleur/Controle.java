@@ -6,11 +6,8 @@ import modele.JeuClient;
 import outils.connexion.*;
 import vue.*;
 
-public class Controle implements AsyncResponse {
-	public static final int PORT = 6666;
-	public static final int MAXCHARACTER = 3;
-	
-	private Jeu leJeu;
+public class Controle implements AsyncResponse, Global {
+		private Jeu leJeu;
 	
 	private EntreeJeu frmEntreeJeu;
 	private ChoixJoueur frmChoixJoueur;
@@ -38,20 +35,30 @@ public class Controle implements AsyncResponse {
 			return;
 		}
 		
-		new ClientSocket(this, info, PORT);
+		new ClientSocket(this, info, Global.PORT);
 	}
 	
 	public void EventChoixJoueur(String pseudo, int characterId) {
 		frmArene.setVisible(true);
 		frmChoixJoueur.dispose();
+		((JeuClient) leJeu).envoi(PSEUDO+STRINGSEPARE+pseudo+STRINGSEPARE+characterId);
+	}
+	
+	public void envoi(Connection connection, Object info) {
+		connection.envoi(info);
 	}
 	
 	@Override
 	public void reception(Connection connection, String ordre, Object info) {
 		switch(ordre) {
-		case "connexion":
-			if(leJeu instanceof JeuServeur) return;
+		case CONNEXION:
+			if(leJeu instanceof JeuServeur) {
+				leJeu.connexion(connection);
+				return;
+			}
+			
 			leJeu = new JeuClient(this);
+			leJeu.connexion(connection);
 			
 			frmArene = new Arene();
 			frmArene.setVisible(false);
@@ -61,9 +68,10 @@ public class Controle implements AsyncResponse {
 				
 			frmEntreeJeu.dispose();
 			break;
-		case "réception":
+		case RECEPTION:
+			leJeu.reception(connection, info);
 			break;
-		case "déconnexion":
+		case DECONNEXION:
 			break;
 		}
 	}

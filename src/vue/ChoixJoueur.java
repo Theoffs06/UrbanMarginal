@@ -1,5 +1,6 @@
 package vue;
 
+import controleur.Global;
 import controleur.Controle;
 
 import java.awt.Cursor;
@@ -21,7 +22,7 @@ import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ChoixJoueur extends JFrame {
+public class ChoixJoueur extends JFrame implements Global {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel iconPersonnage;
@@ -117,7 +118,7 @@ public class ChoixJoueur extends JFrame {
 		contentPane.add(txtPseudo);
 		txtPseudo.setColumns(10);
 		
-		URL resource = getClass().getClassLoader().getResource("fonds/fondchoix.jpg");
+		URL resource = getClass().getClassLoader().getResource(FONDCHOIX);
 		
 		JLabel lbBackground = new JLabel("");
 		lbBackground.setBounds(0, 0, 400, 275);
@@ -141,7 +142,7 @@ public class ChoixJoueur extends JFrame {
 	
 	private void NextButton() {
 		characterId++;
-		if(characterId > Controle.MAXCHARACTER) characterId = 1;
+		if(characterId > NBPERSOS) characterId = 1;
 		RenderCharacter();
 	}
 	
@@ -156,7 +157,7 @@ public class ChoixJoueur extends JFrame {
 	}
 	
 	private void RenderCharacter() {
-		URL resource = getClass().getClassLoader().getResource("personnages/perso" + characterId + "marche" + 1  + "d" + 1 + ".gif");
+		URL resource = getClass().getClassLoader().getResource(CHEMINPERSONNAGES+PERSO+characterId+MARCHE+1 +"d"+1+ EXTFICHIERPERSO);
 		iconPersonnage.setIcon(new ImageIcon(resource));
 	}
 }
