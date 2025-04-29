@@ -3,6 +3,8 @@ package vue;
 import java.awt.EventQueue;
 
 import controleur.Controle;
+import controleur.Global;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -25,7 +27,7 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class EntreeJeu extends JFrame {
+public class EntreeJeu extends JFrame implements Global {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtIp;
@@ -54,7 +56,7 @@ public class EntreeJeu extends JFrame {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controle.EventEntreeJeu("serveur");
+				controle.EventEntreeJeu(SERVEUR);
 			}
 		});
 		btnStart.setBounds(185, 5, 90, 23);

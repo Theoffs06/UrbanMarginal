@@ -2,6 +2,7 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import controleur.Controle;
 import controleur.Global;
@@ -31,6 +32,7 @@ public class JeuServeur extends Jeu implements Global {
 		String ordre = infos[0];
 		switch (ordre) {
 		case PSEUDO:
+			controle.EventJeuServeur(AJOUTPANELMURS, connection);
 			String pseudo = infos[1];
 			int characterId = Integer.parseInt(infos[2]);
 			lesJoueurs.get(connection).initPerso(pseudo, characterId);
@@ -45,5 +47,11 @@ public class JeuServeur extends Jeu implements Global {
 	public void envoi() {}
 
 	/** Génération des murs **/
-	public void constructionMurs() {}
+	public void constructionMurs() {
+		for (int i = 0; i < NBMURS; i++) { 
+			Mur mur = new Mur();
+			lesMurs.add(mur);
+			controle.EventJeuServeur(AJOUTMUR, mur.getjLabel());
+		}
+	}
 }
