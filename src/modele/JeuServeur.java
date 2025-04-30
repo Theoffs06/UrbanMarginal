@@ -36,6 +36,12 @@ public class JeuServeur extends Jeu implements Global {
 			String pseudo = infos[1];
 			int characterId = Integer.parseInt(infos[2]);
 			lesJoueurs.get(connection).initPerso(pseudo, characterId, lesJoueurs.values(), lesMurs);
+			controle.EventJeuServeur(AJOUTPHRASE, "*** " + pseudo + " vient de se connecter ***");
+			break;
+		case TCHAT:
+			String message = infos[1];
+			message = lesJoueurs.get(connection).getPseudo() + " > " + message;
+			controle.EventJeuServeur(AJOUTPHRASE, message);
 			break;
 		}
 	}
@@ -43,8 +49,16 @@ public class JeuServeur extends Jeu implements Global {
 	@Override
 	public void deconnexion() {}
 
-	/** Envoi d'une information vers tous les clients fais appel plusieurs fois à l'envoi de la classe Jeu **/
-	public void envoi() {}
+	/**
+	 * Envoi d'une information vers tous les clients
+	 * fais appel plusieurs fois à l'envoi de la classe Jeu
+	 * @param info information à envoyer
+	 */
+	public void envoi(Object info) {
+		for (Connection connection : lesJoueurs.keySet()) {
+			super.envoi(connection, info);
+		}
+	}
 	
 	public void ajoutJLabelJeuArene(Object jLabel) {
 		this.controle.EventJeuServeur(AJOUTJLABELJEU, jLabel);

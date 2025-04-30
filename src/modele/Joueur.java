@@ -143,4 +143,8 @@ public class Joueur extends Objet implements Global {
 	
 	/** Le joueur se déconnecte et disparait **/
 	public void departJoueur() {}
+	
+	public String getPseudo() {
+		return pseudo;
+	}
 }

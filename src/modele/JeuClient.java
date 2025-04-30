@@ -30,9 +30,14 @@ public class JeuClient extends Jeu implements Global {
 
 	@Override
 	public void reception(Connection connection, Object info) {
-		if (!(info instanceof JPanel)) return;
-		if (!mursOk) controle.EventJeuClient(AJOUTPANELMURS, info);
-		else controle.EventJeuClient(MODIFPANELJEU, info);
+		if (info instanceof JPanel) {
+			if (!mursOk) controle.EventJeuClient(AJOUTPANELMURS, info);
+			else controle.EventJeuClient(MODIFPANELJEU, info);
+			return;
+		}
+		
+		if (!(info instanceof String)) return;
+		controle.EventJeuClient(MODIFTCHAT, info);
 	}
 	
 	/**

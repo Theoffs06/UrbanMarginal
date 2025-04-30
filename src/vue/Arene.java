@@ -2,6 +2,8 @@ package vue;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -9,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controleur.Controle;
 import controleur.Global;
 
 import javax.swing.JLabel;
@@ -27,11 +30,16 @@ public class Arene extends JFrame implements Global {
 	private JScrollPane spChat;
 	private JTextArea txtChat;
 	
+	private Boolean client;
+	private Controle controle;
+	
 	/**
 	 * Create the frame.
 	 */
-	public Arene() {
-		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
+	public Arene(Controle controle, String typeJeu) {
+		this.client = typeJeu.equals(CLIENT);
+		this.controle = controle;
+		this.getContentPane().setPreferredSize(new Dimension(LARGEURARENE, HAUTEURARENE + 25 + 140));
 		this.pack();
 		
 		setResizable(false);
@@ -54,10 +62,18 @@ public class Arene extends JFrame implements Global {
 		wallPane.setLayout(null);
 		contentPane.add(wallPane);
 		
-		txtMessage = new JTextField();
-		txtMessage.setBounds(0, 600, 800, 25);
-		contentPane.add(txtMessage);
-		txtMessage.setColumns(10);
+		if (this.client) {
+			txtMessage = new JTextField();
+			txtMessage.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					PressedKeySendMessage(e);
+				}
+			});
+			txtMessage.setBounds(0, 600, 800, 25);
+			contentPane.add(txtMessage);
+			txtMessage.setColumns(10);
+		}
 		
 		spChat = new JScrollPane();
 		spChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -65,6 +81,7 @@ public class Arene extends JFrame implements Global {
 		contentPane.add(spChat);
 		
 		txtChat = new JTextArea();
+		txtChat.setEditable(false);
 		spChat.setViewportView(txtChat);
 				
 		JLabel lbBackground = new JLabel("");
@@ -75,9 +92,17 @@ public class Arene extends JFrame implements Global {
 		
 	}
 	
+	public void PressedKeySendMessage(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (txtMessage.getText().equals("")) return;
+			controle.EventArene(txtMessage.getText());
+			txtMessage.setText("");
+		}
+	}
+	
 	/**
 	 * Ajoute un mur dans le panel des murs
-	 * @param unMur le mur à ajouter
+	 * @param mur le mur à ajouter
 	 */
 	public void ajoutMurs(Object mur) {
 		wallPane.add((JLabel) mur);
@@ -86,11 +111,16 @@ public class Arene extends JFrame implements Global {
 	
 	/**
 	 * Ajout d'un joueur, son message ou sa boule, dans le panel de jeu
-	 * @param unJLabel le label à ajouter
+	 * @param label le label à ajouter
 	 */
 	public void ajoutJLabelJeu(Object label) {
 		gamePane.add((JLabel) label);
 		gamePane.repaint();
+	}
+	
+	public void ajoutChat(String message) {
+		txtChat.setText(this.txtChat.getText()+message+"\r\n");
+		txtChat.setCaretPosition(txtChat.getDocument().getLength());
 	}
 	
 	public JPanel getWallPane() {
@@ -110,5 +140,14 @@ public class Arene extends JFrame implements Global {
 		this.gamePane.removeAll();
 		this.gamePane.add(gamePane);
 		this.gamePane.repaint();
+	}
+	
+	public String getTxtChat() {
+		return txtChat.getText();
+	}
+	
+	public void setTxtChat(String txtChat) {
+		this.txtChat.setText(txtChat);
+		this.txtChat.setCaretPosition(this.txtChat.getDocument().getLength());
 	}
 }

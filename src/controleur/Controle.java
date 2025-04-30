@@ -35,8 +35,8 @@ public class Controle implements AsyncResponse, Global {
 	
 	/** Constructeur **/
 	private Controle() {
-		this.frmEntreeJeu = new EntreeJeu(this);
-		this.frmEntreeJeu.setVisible(true);
+		frmEntreeJeu = new EntreeJeu(this);
+		frmEntreeJeu.setVisible(true);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class Controle implements AsyncResponse, Global {
 			new ServeurSocket(this, PORT);
 			leJeu = new JeuServeur(this);
 			
-			frmArene = new Arene();
+			frmArene = new Arene(this, SERVEUR);
 			((JeuServeur) leJeu).constructionMurs();
 			frmArene.setVisible(true);
 			
@@ -62,12 +62,16 @@ public class Controle implements AsyncResponse, Global {
 	/**
 	 * Informations provenant de la vue ChoixJoueur
 	 * @param pseudo le pseudo du joueur
-	 * @param numPerso le numéro du personnage choisi par le joueur
+	 * @param characterId le numéro du personnage choisi par le joueur
 	 */
 	public void EventChoixJoueur(String pseudo, int characterId) {
 		frmArene.setVisible(true);
 		frmChoixJoueur.dispose();
 		((JeuClient) leJeu).envoi(PSEUDO+STRINGSEPARE+pseudo+STRINGSEPARE+characterId);
+	}
+	
+	public void EventArene(String info) {
+		((JeuClient) leJeu).envoi(TCHAT+STRINGSEPARE+info);
 	}
 	
 	/**
@@ -89,6 +93,10 @@ public class Controle implements AsyncResponse, Global {
 		case MODIFPANELJEU:
 			leJeu.envoi((Connection) info, this.frmArene.getGamePane());
 			break;
+		case AJOUTPHRASE:
+			frmArene.ajoutChat((String) info);
+			((JeuServeur)leJeu).envoi(frmArene.getTxtChat());
+			break;
 		}
 	}
 	
@@ -104,6 +112,9 @@ public class Controle implements AsyncResponse, Global {
 			break;
 		case MODIFPANELJEU:
 			frmArene.setGamePane((JPanel) info);
+			break;
+		case MODIFTCHAT:
+			frmArene.setTxtChat((String) info);
 			break;
 		}
 	}
@@ -129,7 +140,7 @@ public class Controle implements AsyncResponse, Global {
 			leJeu = new JeuClient(this);
 			leJeu.connexion(connection);
 			
-			frmArene = new Arene();
+			frmArene = new Arene(this, CLIENT);
 			frmArene.setVisible(false);
 				
 			frmChoixJoueur = new ChoixJoueur(this);
