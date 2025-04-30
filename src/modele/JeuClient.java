@@ -10,6 +10,7 @@ import outils.connexion.Connection;
 public class JeuClient extends Jeu implements Global {
 	/** objet de connexion pour communiquer avec le serveur **/
 	private Connection connection;
+	private Boolean mursOk = false;
 	
 	/**
 	 * Controleur
@@ -29,9 +30,9 @@ public class JeuClient extends Jeu implements Global {
 
 	@Override
 	public void reception(Connection connection, Object info) {
-		if (info instanceof JPanel) {
-			controle.EventJeuClient(AJOUTPANELMURS, info);
-		}
+		if (!(info instanceof JPanel)) return;
+		if (!mursOk) controle.EventJeuClient(AJOUTPANELMURS, info);
+		else controle.EventJeuClient(MODIFPANELJEU, info);
 	}
 	
 	/**

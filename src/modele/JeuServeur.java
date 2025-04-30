@@ -23,7 +23,7 @@ public class JeuServeur extends Jeu implements Global {
 	
 	@Override
 	public void connexion(Connection connection) {
-		lesJoueurs.put(connection, new Joueur());
+		lesJoueurs.put(connection, new Joueur(this));
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class JeuServeur extends Jeu implements Global {
 			controle.EventJeuServeur(AJOUTPANELMURS, connection);
 			String pseudo = infos[1];
 			int characterId = Integer.parseInt(infos[2]);
-			lesJoueurs.get(connection).initPerso(pseudo, characterId);
+			lesJoueurs.get(connection).initPerso(pseudo, characterId, lesJoueurs.values(), lesMurs);
 			break;
 		}
 	}
@@ -45,6 +45,16 @@ public class JeuServeur extends Jeu implements Global {
 
 	/** Envoi d'une information vers tous les clients fais appel plusieurs fois à l'envoi de la classe Jeu **/
 	public void envoi() {}
+	
+	public void ajoutJLabelJeuArene(Object jLabel) {
+		this.controle.EventJeuServeur(AJOUTJLABELJEU, jLabel);
+	}
+	
+	public void envoiJeuATous() {
+		for (Connection connection : this.lesJoueurs.keySet()) {
+			controle.EventJeuServeur(MODIFPANELJEU, connection);
+		}
+	}
 
 	/** Génération des murs **/
 	public void constructionMurs() {

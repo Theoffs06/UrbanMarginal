@@ -1,5 +1,14 @@
 package modele;
 
+import java.awt.Font;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 import controleur.Global;
 
 /** Gestion des joueurs **/
@@ -9,6 +18,9 @@ public class Joueur extends Objet implements Global {
 	
 	/** n° correspondant au personnage (avatar) pour le fichier correspondant **/
 	private int numPerso; 
+	
+	/** message qui s'affiche sous le personnage (contenant pseudo et vie) */
+	private JLabel message;
 	
 	/** instance de JeuServeur pour communiquer avec lui **/
 	private JeuServeur jeuServeur;
@@ -26,24 +38,61 @@ public class Joueur extends Objet implements Global {
 	private int orientation;
 	
 	/** Constructeur **/
-	public Joueur() {}
+	public Joueur(JeuServeur jeuServeur) {
+		this.jeuServeur = jeuServeur;
+		this.vie = MAXVIE;
+		this.etape = 1;
+		this.orientation = DROITE;
+	}
 
 	/**
 	 * Initialisation d'un joueur (pseudo et numéro, calcul de la 1ère position, affichage, création de la boule)
-	 * @param numPerso numéro du personnage
 	 * @param pseudo pseudo du joueur
+	 * @param numPerso numéro du personnage
+	 * @param lesJoueurs collection contenant tous les joueurs
+	 * @param lesMurs collection contenant les murs
 	 */
-	public void initPerso(String pseudo, int numPerso) {
+	public void initPerso(String pseudo, int numPerso, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
 		this.pseudo = pseudo;
 		this.numPerso = numPerso;
 		System.out.println("joueur "+pseudo+" - num perso "+numPerso+" créé");
+		
+		jLabel = new JLabel();
+		
+		message = new JLabel();
+		message.setHorizontalAlignment(SwingConstants.CENTER);
+		message.setFont(new Font("Dialog", Font.PLAIN, 8));
+		
+		premierePosition(lesJoueurs, lesMurs);
+		jeuServeur.ajoutJLabelJeuArene(jLabel);
+		jeuServeur.ajoutJLabelJeuArene(message);
+		affiche(MARCHE, etape);
+		
 	}
 
 	/** Calcul de la première position aléatoire du joueur (sans chevaucher un autre joueur ou un mur) **/
-	private void premierePosition() {}
+	private void premierePosition(Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		jLabel.setBounds(0, 0, LARGEURPERSO, HAUTEURPERSO);
+		do {
+			posX = (int) Math.round(Math.random() * (LARGEURARENE - LARGEURPERSO)) ;
+			posY = (int) Math.round(Math.random() * (HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE));
+		} while (toucheJoueur(lesJoueurs) || toucheMur(lesMurs));
+	}
 	
-	/** Affiche le personnage et son message **/
-	public void affiche() {}
+	/**
+	 * Affiche le personnage et son message
+	 * @param etape Etape dans le mouvement du personnage
+	 * @param etat etat du personnage : "marche", "touche", "mort"
+	 */
+	public void affiche(String etat, int etape) {
+		jLabel.setBounds(posX, posY, LARGEURPERSO, HAUTEURPERSO);
+		URL resource = getClass().getClassLoader().getResource(CHEMINPERSONNAGES + PERSO + numPerso + etat + etape + "d" + orientation + EXTFICHIERPERSO);
+		jLabel.setIcon(new ImageIcon(resource));
+		
+		message.setBounds(posX - 10, posY + HAUTEURPERSO, LARGEURPERSO + 10, HAUTEURMESSAGE);
+		message.setText(pseudo + " : " + vie);
+		jeuServeur.envoiJeuATous();
+	}
 
 	/** Gère une action reçue et qu'il faut afficher (déplacement, tire de boule...) **/
 	public void action() {}
@@ -53,10 +102,16 @@ public class Joueur extends Objet implements Global {
 
 	/**
 	 * Contrôle si le joueur touche un des autres joueurs
-	 * @return true si deux joueurs se touchent
-	 **/
-	private Boolean toucheJoueur() {
-		return null;
+	 * @param lesJoueurs collection contenant tous les joueurs
+	 * @return true si le joueur touche un autre joueur
+	 */
+	private Boolean toucheJoueur(Collection<Joueur> lesJoueurs) {
+		for (Joueur joueur : lesJoueurs) {
+			if (equals(joueur)) continue;
+			if (super.toucheObjet(joueur)) return true;
+		}
+		
+		return false;
 	}
 
 	/** Gain de points de vie après avoir touché un joueur **/
@@ -66,11 +121,16 @@ public class Joueur extends Objet implements Global {
 	public void perteVie() {}
 	
 	/**
-	 * Contrôle si le joueur touche un des murs
-	 * @return true si un joueur touche un mur
+	* Contrôle si le joueur touche un des murs
+	 * @param lesMurs collection contenant tous les murs
+	 * @return true si le joueur touche un mur
 	 */
-	private Boolean toucheMur() {
-		return null;
+	private Boolean toucheMur(ArrayList<Mur> lesMurs) {
+		for (Mur mur : lesMurs) {
+			if (super.toucheObjet(mur)) return true;
+		}
+		
+		return false;
 	}
 	
 	/**

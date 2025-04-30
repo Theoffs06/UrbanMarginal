@@ -59,6 +59,12 @@ public interface Global {
 	/** état mort du personnage **/
 	String MORT = "mort";
 	
+	/** orientation du personnage vers la gauche **/
+	int GAUCHE = 0;
+	
+	/** orientation du personnage vers la droite **/
+	int DROITE = 1;
+	
 	/** Caractère de séparation dans les chaines transférées **/
 	String STRINGSEPARE = "~";
 	
@@ -80,6 +86,8 @@ public interface Global {
 	/** perte de points de vie lors d'une attaque **/
 	int PERTE = 2 ; 
 	
+	
+	
 	 /** hauteur de la zone de jeu de l'arène **/
 	int HAUTEURARENE = 600;
 	
@@ -92,6 +100,15 @@ public interface Global {
 	/** largeur d'un mur **/
 	int LARGEURMUR = 34;
 	
+	/** hauteur du personnage **/
+	int HAUTEURPERSO = 44;
+	
+	/** largeur du personnage **/
+	int LARGEURPERSO = 39;
+	
+	/** hauteur du message **/
+	int HAUTEURMESSAGE = 8;
+	
 	/** Message "serveur" pour la création d'un serveur **/
 	String SERVEUR = "serveur";
 	
@@ -103,4 +120,9 @@ public interface Global {
 	
 	/** ordre pour ajouter le panel des murs dans l'arène du client **/
 	String AJOUTPANELMURS = "ajout panel murs";
+	
+	/** ordre pour ajouter un jLabel dans l'arène du serveur (joueur, message, boule) **/
+	String AJOUTJLABELJEU = "ajout jLabel jeu";
+	/** ordre pour modifier le panel du jeu dans l'aeène du client **/
+	String MODIFPANELJEU = "modif panel jeu";
 }

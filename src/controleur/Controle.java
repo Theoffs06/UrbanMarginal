@@ -81,7 +81,13 @@ public class Controle implements AsyncResponse, Global {
 			frmArene.ajoutMurs(info);
 			break;
 		case AJOUTPANELMURS:
-			this.leJeu.envoi((Connection) info, this.frmArene.getWallPane());
+			leJeu.envoi((Connection) info, this.frmArene.getWallPane());
+			break;
+		case AJOUTJLABELJEU:
+			this.frmArene.ajoutJLabelJeu(info);
+			break;
+		case MODIFPANELJEU:
+			leJeu.envoi((Connection) info, this.frmArene.getGamePane());
 			break;
 		}
 	}
@@ -94,7 +100,11 @@ public class Controle implements AsyncResponse, Global {
 	public void EventJeuClient(String ordre, Object info) {
 		switch (ordre) {
 		case AJOUTPANELMURS:
-			this.frmArene.setWallPane((JPanel) info);
+			frmArene.setWallPane((JPanel) info);
+			break;
+		case MODIFPANELJEU:
+			frmArene.setGamePane((JPanel) info);
+			break;
 		}
 	}
 	
