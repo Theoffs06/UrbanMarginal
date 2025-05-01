@@ -86,7 +86,11 @@ public interface Global {
 	/** perte de points de vie lors d'une attaque **/
 	int PERTE = 2 ; 
 	
+	/** taille du pas quand le personnage avance (nombre de pixels) **/
+	int PAS = 10;
 	
+	/** nombre d'étapes (d'images) pour donner l'impresson de marche **/
+	int NBETAPESMARCHE = 4;
 	
 	 /** hauteur de la zone de jeu de l'arène **/
 	int HAUTEURARENE = 600;
@@ -118,6 +122,9 @@ public interface Global {
 	/** Message "pseudo" envoyé pour la création d'un joueur **/
 	String PSEUDO = "pseudo";
 	
+	/** ordre pour exécuter une action (déplacement, tire de boule) **/
+	String ACTION = "action";
+	
 	/** ordre pour ajouter un mur dans l'arène du serveur **/
 	String AJOUTMUR = "ajout mur";
 	
@@ -126,19 +133,16 @@ public interface Global {
 	
 	/** ordre pour ajouter un jLabel dans l'arène du serveur (joueur, message, boule) **/
 	String AJOUTJLABELJEU = "ajout jLabel jeu";
+	
 	/** ordre pour modifier le panel du jeu dans l'aeène du client **/
 	String MODIFPANELJEU = "modif panel jeu";
 	
-	/**
-	 * ordre pour demander d'ajouter une phrase au tchat
-	 */
+	/** ordre pour demander d'ajouter une phrase au tchat **/
 	String TCHAT = "tchat";
-	/**
-	 * ordre pour ajouter une phrase dans l'arène du serveur
-	 */
+	
+	/** ordre pour ajouter une phrase dans l'arène du serveur **/
 	String AJOUTPHRASE = "ajout phrase";
-	/**
-	 * ordre pour modifier le contenu du tchat dans l'arène du client
-	 */
+	
+	/** ordre pour modifier le contenu du tchat dans l'arène du client **/
 	String MODIFTCHAT = "modif tchat";
 }

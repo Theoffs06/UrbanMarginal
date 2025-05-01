@@ -1,6 +1,7 @@
 package modele;
 
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -94,11 +95,57 @@ public class Joueur extends Objet implements Global {
 		jeuServeur.envoiJeuATous();
 	}
 
-	/** Gère une action reçue et qu'il faut afficher (déplacement, tire de boule...) **/
-	public void action() {}
+	/**
+	 * Gère une action reçue et qu'il faut afficher (déplacement, tire de boule...)
+	 * @param action action a exécutée (déplacement ou tir de boule)
+	 * @param lesMurs collection de murs
+	 * @param lesJoueurs collection de joueurs
+	 */
+	public void action(Integer action, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		switch (action) {
+		case KeyEvent.VK_LEFT:
+			orientation = GAUCHE;
+			posX = deplace(posX, action, -PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_RIGHT:
+			orientation = DROITE;
+			posX = deplace(posX, action, PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_UP:
+			posY = deplace(posY, action, -PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_DOWN:
+			posY = deplace(posY, action, PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
+			break;
+		}
+		affiche(MARCHE, etape);
+	}
 
-	/** Gère le déplacement du personnage **/
-	private void deplace() {}
+	/**
+	 * Gère le déplacement du personnage 
+	 * @param position position de départ
+	 * @param action gauche, droite, haut ou bas
+	 * @param lepas valeur de déplacement (positif ou négatif)
+	 * @param max valeur à ne pas dépasser
+	 * @param lesJoueurs collection de joueurs pour éviter les collisions
+	 * @param lesMurs collection de murs pour éviter les collisions
+	 * @return nouvelle position
+	 */
+	private int deplace(int position, int action, int lepas, int max, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		int oldPos = position;
+		position += lepas;
+		position = Math.max(position, 0);
+		position = Math.min(position, max);
+		
+		if (action == KeyEvent.VK_LEFT || action == KeyEvent.VK_RIGHT) posX = position;
+		else posY = position;
+		
+		if (toucheJoueur(lesJoueurs) || toucheMur(lesMurs)) position = oldPos;
+		
+		etape++;
+		if (etape > NBETAPESMARCHE) etape = 1;
+		return position;
+	}
 
 	/**
 	 * Contrôle si le joueur touche un des autres joueurs

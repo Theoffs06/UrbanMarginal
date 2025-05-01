@@ -49,6 +49,14 @@ public class Arene extends JFrame implements Global {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		if (this.client) {
+			contentPane.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					PressedAnyKey(e);
+				}
+			});
+		}
 		
 		gamePane = new JPanel();
 		gamePane.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
@@ -82,6 +90,12 @@ public class Arene extends JFrame implements Global {
 		
 		txtChat = new JTextArea();
 		txtChat.setEditable(false);
+		txtChat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				PressedAnyKey(e);
+			}
+		});
 		spChat.setViewportView(txtChat);
 				
 		JLabel lbBackground = new JLabel("");
@@ -90,6 +104,20 @@ public class Arene extends JFrame implements Global {
 		lbBackground.setIcon(new ImageIcon(resource));
 		contentPane.add(lbBackground);
 		
+	}
+	
+	public void PressedAnyKey(KeyEvent e) {
+		int touche = -1;
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_RIGHT:
+		case KeyEvent.VK_UP:
+		case KeyEvent.VK_DOWN:
+			touche = e.getKeyCode();
+			break;
+		}
+		
+		if (touche != -1) controle.EventArene(touche); 
 	}
 	
 	public void PressedKeySendMessage(KeyEvent e) {
@@ -140,6 +168,7 @@ public class Arene extends JFrame implements Global {
 		this.gamePane.removeAll();
 		this.gamePane.add(gamePane);
 		this.gamePane.repaint();
+		contentPane.requestFocus();
 	}
 	
 	public String getTxtChat() {
@@ -149,5 +178,6 @@ public class Arene extends JFrame implements Global {
 	public void setTxtChat(String txtChat) {
 		this.txtChat.setText(txtChat);
 		this.txtChat.setCaretPosition(this.txtChat.getDocument().getLength());
+		contentPane.requestFocus();
 	}
 }

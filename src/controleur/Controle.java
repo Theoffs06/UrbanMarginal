@@ -70,8 +70,17 @@ public class Controle implements AsyncResponse, Global {
 		((JeuClient) leJeu).envoi(PSEUDO+STRINGSEPARE+pseudo+STRINGSEPARE+characterId);
 	}
 	
-	public void EventArene(String info) {
-		((JeuClient) leJeu).envoi(TCHAT+STRINGSEPARE+info);
+	/**
+	 * Information provenant de la vue Arene
+	 * @param info information à transférer
+	 */
+	public void EventArene(Object info) {		
+		if (info instanceof String) {
+			((JeuClient) leJeu).envoi(TCHAT+STRINGSEPARE+info);
+			return;
+		}
+		
+		if (info instanceof Integer) ((JeuClient) leJeu).envoi(ACTION+STRINGSEPARE+info);
 	}
 	
 	/**

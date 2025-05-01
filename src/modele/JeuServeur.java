@@ -43,6 +43,10 @@ public class JeuServeur extends Jeu implements Global {
 			message = lesJoueurs.get(connection).getPseudo() + " > " + message;
 			controle.EventJeuServeur(AJOUTPHRASE, message);
 			break;
+		case ACTION:
+			Integer action = Integer.parseInt(infos[1]);
+			lesJoueurs.get(connection).action(action, lesJoueurs.values(), lesMurs);
+			break;
 		}
 	}
 	
