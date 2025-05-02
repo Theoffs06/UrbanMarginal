@@ -92,6 +92,12 @@ public interface Global {
 	/** nombre d'étapes (d'images) pour donner l'impresson de marche **/
 	int NBETAPESMARCHE = 4;
 	
+	/** nombre d'étapes (d'images) pour donner l'impression d'être touché **/
+	int NBETAPESTOUCHE = 2;
+	
+	/** nombre d'étapes (d'images) pour donner l'impresson de mourir **/
+	int NBETAPESMORT = 2;
+	
 	 /** hauteur de la zone de jeu de l'arène **/
 	int HAUTEURARENE = 600;
 	
@@ -112,6 +118,12 @@ public interface Global {
 	
 	/** hauteur du message **/
 	int HAUTEURMESSAGE = 8;
+	
+	/** largeur de la boule **/
+	int LARGEURBOULE = 17;
+	
+	/** hauteur de la boule **/
+	int HAUTEURBOULE = 17;
 	
 	/** Message "serveur" pour la création d'un serveur **/
 	String SERVEUR = "serveur";

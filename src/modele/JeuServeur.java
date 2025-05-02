@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -81,5 +82,10 @@ public class JeuServeur extends Jeu implements Global {
 			lesMurs.add(mur);
 			controle.EventJeuServeur(AJOUTMUR, mur.getjLabel());
 		}
+	}
+	
+	/** @return the lesJoueurs **/
+	public Collection getLesJoueurs() {
+		return lesJoueurs.values();
 	}
 }
