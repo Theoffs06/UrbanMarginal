@@ -1,7 +1,6 @@
 package vue;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
@@ -9,14 +8,13 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import controleur.Controle;
 import controleur.Global;
+import outils.son.Son;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -32,10 +30,9 @@ public class Arene extends JFrame implements Global {
 	
 	private Boolean client;
 	private Controle controle;
+	private Son[] lesSons = new Son[SON.length];
 	
-	/**
-	 * Create the frame.
-	 */
+	/** Create the frame. **/
 	public Arene(Controle controle, String typeJeu) {
 		this.client = typeJeu.equals(CLIENT);
 		this.controle = controle;
@@ -104,6 +101,11 @@ public class Arene extends JFrame implements Global {
 		lbBackground.setIcon(new ImageIcon(resource));
 		contentPane.add(lbBackground);
 		
+		if (client) {
+			for (int i = 0; i < SON.length; i++) {
+				lesSons[i] = new Son(getClass().getClassLoader().getResource(SON[i]));
+			}
+		}
 	}
 	
 	public void PressedAnyKey(KeyEvent e) {
@@ -150,6 +152,10 @@ public class Arene extends JFrame implements Global {
 	public void ajoutChat(String message) {
 		txtChat.setText(this.txtChat.getText()+message+"\r\n");
 		txtChat.setCaretPosition(txtChat.getDocument().getLength());
+	}
+	
+	public void joueSon(Integer numSon) {
+		lesSons[numSon].play();
 	}
 	
 	public JPanel getWallPane() {

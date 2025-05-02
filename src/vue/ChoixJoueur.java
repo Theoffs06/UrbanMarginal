@@ -1,13 +1,11 @@
 package vue;
 
 import controleur.Global;
+import outils.son.Son;
 import controleur.Controle;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -33,6 +31,11 @@ public class ChoixJoueur extends JFrame implements Global {
 	private Controle controle;
 	private int characterId;
 	private JTextField txtPseudo;
+	
+	private Son welcome;
+	private Son previous;
+	private Son next;
+	private Son go;
 		
 	/**
 	 * Create the frame.
@@ -117,6 +120,7 @@ public class ChoixJoueur extends JFrame implements Global {
 		txtPseudo.setBounds(144, 248, 117, 16);
 		contentPane.add(txtPseudo);
 		txtPseudo.setColumns(10);
+		txtPseudo.requestFocus();
 		
 		URL resource = getClass().getClassLoader().getResource(FONDCHOIX);
 		
@@ -124,6 +128,12 @@ public class ChoixJoueur extends JFrame implements Global {
 		lbBackground.setBounds(0, 0, 400, 275);
 		lbBackground.setIcon(new ImageIcon(resource));
 		contentPane.add(lbBackground);
+		
+		previous = new Son(getClass().getClassLoader().getResource(SONPRECEDENT));
+		next = new Son(getClass().getClassLoader().getResource(SONSUIVANT));
+		go = new Son(getClass().getClassLoader().getResource(SONGO));
+		welcome = new Son(getClass().getClassLoader().getResource(SONWELCOME));
+		welcome.play();
 	}
 	
 	private void NormalMouse() {
@@ -138,12 +148,14 @@ public class ChoixJoueur extends JFrame implements Global {
 		characterId--;
 		if(characterId <= 0) characterId = 3;
 		RenderCharacter();
+		previous.play();
 	}
 	
 	private void NextButton() {
 		characterId++;
 		if(characterId > NBPERSOS) characterId = 1;
 		RenderCharacter();
+		next.play();
 	}
 	
 	private void GoButton() {		
@@ -154,6 +166,7 @@ public class ChoixJoueur extends JFrame implements Global {
 		}
 		
 		controle.EventChoixJoueur(txtPseudo.getText(), characterId);
+		go.play();
 	}
 	
 	private void RenderCharacter() {

@@ -41,8 +41,14 @@ public class JeuClient extends Jeu implements Global {
 			return;
 		}
 		
-		if (!(info instanceof String)) return;
-		controle.EventJeuClient(MODIFTCHAT, info);
+		if (info instanceof String) {
+			controle.EventJeuClient(MODIFTCHAT, info);
+			return;
+		}
+		
+		if (info instanceof Integer) {
+			controle.EventJeuClient(JOUESON, info);
+		}
 	}
 	
 	/**
