@@ -9,5 +9,6 @@
 	<classpathentry kind="src" path="media"/>
 	<classpathentry kind="lib" path="com.miglayout.swing_11.4.0.jar"/>
 	<classpathentry kind="lib" path="com.miglayout.core_11.4.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

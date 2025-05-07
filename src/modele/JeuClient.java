@@ -26,7 +26,9 @@ public class JeuClient extends Jeu implements Global {
 	}
 	
 	@Override
-	public void deconnexion() {}
+	public void deconnexion(Connection connection) {
+		System.exit(0);
+	}
 
 	@Override
 	public void reception(Connection connection, Object info) {

@@ -21,8 +21,11 @@ public abstract class Jeu {
 	 */
 	public abstract void reception(Connection connection, Object info);
 	
-	/** Déconnexion de l'ordinateur distant **/
-	public abstract void deconnexion();
+	/**
+	 * Déconnexion de l'ordinateur distant
+	 * @param connection objet de connexiob pour savoir quel ordinateur s'est déconnecté
+	 */
+	public abstract void deconnexion(Connection connection);
 	
 	/**
 	 * Envoi d'une information vers un ordinateur distant

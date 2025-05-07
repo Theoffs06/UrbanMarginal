@@ -109,6 +109,7 @@ public class Joueur extends Objet implements Global {
 	 * @param lesJoueurs collection de joueurs
 	 */
 	public void action(Integer action, Collection lesJoueurs, Collection lesMurs) {
+		if (estMort()) return;
 		switch (action) {
 		case KeyEvent.VK_LEFT:
 			orientation = GAUCHE;
@@ -161,11 +162,13 @@ public class Joueur extends Objet implements Global {
 	/** Gain de points de vie après avoir touché un joueur **/
 	public void gainVie() {
 		vie += GAIN;
+		affiche(MARCHE, etape);
 	}
 	
 	/** Perte de points de vie après avoir été touché **/
 	public void perteVie() {
 		vie = Math.max(0, vie - PERTE);
+		affiche(MARCHE, etape);
 	}
 		
 	/**
@@ -176,8 +179,14 @@ public class Joueur extends Objet implements Global {
 		return (vie == 0);
 	}
 	
-	/** Le joueur se déconnecte et disparait **/
-	public void departJoueur() {}
+	/** Le joueur disparait (ainsi que son message et sa boule) **/
+	public void departJoueur() {
+		if (jLabel == null) return;
+		jLabel.setVisible(false);
+		message.setVisible(false);
+		boule.getjLabel().setVisible(false);
+		jeuServeur.envoiJeuATous();
+	}
 	
 	public String getPseudo() {
 		return pseudo;

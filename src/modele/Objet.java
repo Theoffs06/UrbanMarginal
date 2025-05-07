@@ -63,4 +63,12 @@ public abstract class Objet {
 	public JLabel getjLabel() {
 		return jLabel;
 	}
+	
+	public void setPosX(Integer posX) {
+		this.posX = posX;
+	}
+	
+	public void setPosY(Integer posY) {
+		this.posY = posY;
+	}
 }
