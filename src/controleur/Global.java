@@ -112,13 +112,22 @@ public interface Global {
 	String DECONNEXION = "deconnexion";
 		
 	/** vie de départ pour tous les joueurs **/
-	int MAXVIE = 10 ;
+	int MAXVIE = 10;
 	
 	/** gain de points de vie lors d'une attaque **/
-	int GAIN = 1 ; 
+	int GAINVIE = 1; 
 	
 	/** perte de points de vie lors d'une attaque **/
-	int PERTE = 2 ; 
+	int PERTEVIE = 2; 
+	
+	/** nombre de boules de départ pour tous les joueurs **/
+	int MAXBOULE = 10;
+	
+	/** nombre de boules gagnées par un joueur lorsqu'il réussit une attaque **/
+	int GAINBOULE = 2;
+	
+	/** nombre de boules perdues par un joueur après avoir utilisé une boule **/
+	int PERTEBOULE = 1;
 	
 	/** taille du pas quand le personnage avance (nombre de pixels) **/
 	int PAS = 10;

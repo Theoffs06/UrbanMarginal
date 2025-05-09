@@ -71,6 +71,7 @@ public class Boule extends Objet implements Global, Runnable {
 		if (victime != null && !victime.estMort()) {
 			victime.perteVie();
 			attaquant.gainVie();
+			attaquant.gainBoule();
 			jeuServeur.envoi(HURT);
 			
 			for (int i = 1; i <= NBETAPESTOUCHE; i++) {
@@ -79,6 +80,7 @@ public class Boule extends Objet implements Global, Runnable {
 			}
 			
 			if (victime.estMort()) {
+				attaquant.gainBoule();
 				jeuServeur.envoi(DEATH);
 				
 				for (int i = 1; i <= NBETAPESMORT; i++) {

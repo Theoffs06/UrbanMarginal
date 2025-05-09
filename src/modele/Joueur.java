@@ -32,6 +32,9 @@ public class Joueur extends Objet implements Global {
 	/** la boule du joueur **/
 	private Boule boule;
 	
+	/** nombre de boules restantes du joueur **/
+	private int nbBoule;
+	
 	/** vie restante du joueur **/
 	private int vie;
 	
@@ -42,6 +45,7 @@ public class Joueur extends Objet implements Global {
 	public Joueur(JeuServeur jeuServeur) {
 		this.jeuServeur = jeuServeur;
 		this.vie = MAXVIE;
+		this.nbBoule = MAXBOULE;
 		this.etape = 1;
 		this.orientation = DROITE;
 	}
@@ -97,8 +101,8 @@ public class Joueur extends Objet implements Global {
 		URL resource = getClass().getClassLoader().getResource(CHEMINPERSONNAGES + PERSO + numPerso + etat + etape + "d" + orientation + EXTFICHIERPERSO);
 		jLabel.setIcon(new ImageIcon(resource));
 		
-		message.setBounds(posX - 10, posY + HAUTEURPERSO, LARGEURPERSO + 10, HAUTEURMESSAGE);
-		message.setText(pseudo + " : " + vie);
+		message.setBounds(posX - 10, posY + HAUTEURPERSO, LARGEURPERSO + 20, HAUTEURMESSAGE);
+		message.setText(pseudo + " : " + vie + " : " + nbBoule);
 		jeuServeur.envoiJeuATous();
 	}
 
@@ -126,8 +130,9 @@ public class Joueur extends Objet implements Global {
 			posY = deplace(posY, action, PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
 			break;
 		case KeyEvent.VK_SPACE:
-			if (boule.getjLabel().isVisible()) break;
+			if (boule.getjLabel().isVisible() || nbBoule == 0) break;
 			boule.tireBoule(this, lesMurs);
+			perteBoule();
 			break;
 		}
 		affiche(MARCHE, etape);
@@ -146,8 +151,9 @@ public class Joueur extends Objet implements Global {
 	private int deplace(int position, int action, int lepas, int max, Collection<Objet> lesJoueurs, Collection<Objet> lesMurs) {
 		int oldPos = position;
 		position += lepas;
-		position = Math.max(position, 0);
-		position = Math.min(position, max);
+		
+		position = (position + lepas) % (max+1);
+		if (position < 0) position += (max+1);
 		
 		if (action == KeyEvent.VK_LEFT || action == KeyEvent.VK_RIGHT) posX = position;
 		else posY = position;
@@ -161,13 +167,25 @@ public class Joueur extends Objet implements Global {
 	
 	/** Gain de points de vie après avoir touché un joueur **/
 	public void gainVie() {
-		vie += GAIN;
+		vie += GAINVIE;
 		affiche(MARCHE, etape);
 	}
 	
 	/** Perte de points de vie après avoir été touché **/
 	public void perteVie() {
-		vie = Math.max(0, vie - PERTE);
+		vie = Math.max(0, vie - PERTEVIE);
+		affiche(MARCHE, etape);
+	}
+	
+	/** Augmente le nombre de boules du joueur après avoir touché ou tué un autre joueur **/
+	public void gainBoule() {
+		nbBoule += GAINBOULE;
+		affiche(MARCHE, etape);
+	}
+	
+	/** Réduit le nombre de boules du joueur après avoir utilisé une boule **/
+	public void perteBoule() {
+		nbBoule = Math.max(0, nbBoule - PERTEBOULE);
 		affiche(MARCHE, etape);
 	}
 		
